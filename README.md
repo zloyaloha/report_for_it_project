@@ -45,6 +45,32 @@ val: data/images/val
 test: data/images/test
 ```
 
+## Нормализация
+Для лучшей сходимости модели я написал скрипт, который нормализует изображение методом ``min-max``. Вот его код на ``Python``
+```python
+def normalize_image(image_path, method='min_max'):
+    image = cv2.imread(image_path)
+    if method == 'min_max':
+        a = np.min(image)
+        b = np.max(image)
+        normalized_image = (image - a) / (b - a)
+    elif method == 'standard':
+        mean = np.mean(image)
+        std = np.std(image)
+        normalized_image = (image - mean) / std
+    else:
+        raise ValueError("Недопустимый метод нормализации. Используйте 'min_max' или 'standard'.")
+    
+    return normalized_image
+```
+### Масштабирование
+Для улучшения и убыстрения обучения модели я написал скрипт, который преобразует изображение к определенному разрешению
+```python
+def resize_images(image_path, target_size):
+    image = cv2.imread(image_path)
+    resized_image = cv2.resize(image, target_size, interpolation=cv2.INTER_CUBIC)
+    return resized_image
+```
 ### Аугментация данных
 
 Так как снимков у нас не сказать, что много, я решил произвести ***аугментацию данных***.

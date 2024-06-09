@@ -11,7 +11,6 @@ import numpy as np
 
 def resize_images(image_path, target_size):
     image = cv2.imread(image_path)
-    print(image_path)
     resized_image = cv2.resize(image, target_size, interpolation=cv2.INTER_CUBIC)
     return resized_image
 
